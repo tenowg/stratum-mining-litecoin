@@ -287,10 +287,9 @@ class DB_Mysql_Extended(DB_Mysql.DB_Mysql):
             SET `upstream_result` = %(result)s,
               `solution` = %(solution)s
             WHERE `time` = FROM_UNIXTIME(%(time)s)
-              AND `worker` = 
-                SELECT id
+              AND `worker` = (SELECT id
                 FROM `pool_worker`
-                WHERE `username` = %(uname)s
+                WHERE `username` = %(uname)s)
               LIMIT 1
             """,
             {
