@@ -275,11 +275,18 @@ class DB_Mysql_Extended(DB_Mysql.DB_Mysql):
 
 
     def found_block(self, data):
-        # for database compatibility we are converting our_worker to Y/N format
-        #if data[5]:
-            #data[5] = 'Y'
-        #else:
-            #data[5] = 'N'
+	# Data layout
+        # 0: worker_name, 
+        # 1: block_header, 
+        # 2: block_hash, 
+        # 3: difficulty, 
+        # 4: timestamp, 
+        # 5: is_valid, 
+        # 6: ip, 
+        # 7: self.block_height, 
+        # 8: self.prev_hash,
+        # 9: invalid_reason, 
+        # 10: share_diff
         # Note: difficulty = -1 here
         self.execute(
             """
@@ -348,6 +355,32 @@ class DB_Mysql_Extended(DB_Mysql.DB_Mysql):
                         "value": total_found
                     }
                 ]
+            )
+
+	 		self.execute(
+                """
+                INSERT INTO `shares_found` 
+                (time, rem_host, worker, our_result, upstream_result, 
+                  reason, solution, block_num, prev_block_hash, 
+                  useragent, difficulty, header) 
+                VALUES
+                (FROM_UNIXTIME(%(time)s), %(host)s, 
+                  (SELECT `id` FROM `pool_worker` WHERE `username` = %(uname)s),
+                  %(lres)s, 0, %(reason)s, %(solution)s, 
+                  %(blocknum)s, %(hash)s, '', %(difficulty)s, %(header)s)
+                """,
+                {
+                    "time": data[4],
+                    "host": data[6],
+                    "uname": data[0],
+                    "lres": data[5],
+                    "reason": data[9],
+                    "solution": data[2],
+                    "blocknum": data[7],
+                    "hash": data[8],
+                    "difficulty": data[3],
+					"header": data[1]
+                }
             )
             
         self.dbh.commit()
