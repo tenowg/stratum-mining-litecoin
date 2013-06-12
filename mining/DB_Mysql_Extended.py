@@ -357,7 +357,7 @@ class DB_Mysql_Extended(DB_Mysql.DB_Mysql):
                 ]
             )
 
-	 		self.execute(
+            self.execute(
                 """
                 INSERT INTO `shares_found` 
                 (time, rem_host, worker, our_result, upstream_result, 
