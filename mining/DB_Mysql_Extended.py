@@ -281,12 +281,11 @@ class DB_Mysql_Extended(DB_Mysql.DB_Mysql):
         # 2: block_hash, 
         # 3: difficulty, 
         # 4: timestamp, 
-        # 5: is_valid, 
+        # 5: is_accepted, 
         # 6: ip, 
         # 7: self.block_height, 
         # 8: self.prev_hash,
-        # 9: invalid_reason, 
-        # 10: share_diff
+        # 9: share_diff
         # Note: difficulty = -1 here
         self.execute(
             """
@@ -361,12 +360,12 @@ class DB_Mysql_Extended(DB_Mysql.DB_Mysql):
                 """
                 INSERT INTO `shares_found` 
                 (time, rem_host, worker, our_result, upstream_result, 
-                  reason, solution, block_num, prev_block_hash, 
+                  solution, block_num, prev_block_hash, 
                   useragent, difficulty, header) 
                 VALUES
                 (FROM_UNIXTIME(%(time)s), %(host)s, 
                   (SELECT `id` FROM `pool_worker` WHERE `username` = %(uname)s),
-                  %(lres)s, 0, %(reason)s, %(solution)s, 
+                  %(lres)s, %(lres)s, %(solution)s, 
                   %(blocknum)s, %(hash)s, '', %(difficulty)s, %(header)s)
                 """,
                 {
@@ -374,11 +373,10 @@ class DB_Mysql_Extended(DB_Mysql.DB_Mysql):
                     "host": data[6],
                     "uname": data[0],
                     "lres": data[5],
-                    "reason": data[9],
                     "solution": data[2],
                     "blocknum": data[7],
                     "hash": data[8],
-                    "difficulty": data[3],
+                    "difficulty": data[9],
 					"header": data[1]
                 }
             )
