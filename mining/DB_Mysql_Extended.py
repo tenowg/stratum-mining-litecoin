@@ -361,12 +361,12 @@ class DB_Mysql_Extended(DB_Mysql.DB_Mysql):
                 INSERT INTO `shares_found` 
                 (time, rem_host, worker, our_result, upstream_result, 
                   solution, block_num, prev_block_hash, 
-                  useragent, difficulty, header) 
+                  useragent, difficulty, username) 
                 VALUES
                 (FROM_UNIXTIME(%(time)s), %(host)s, 
                   (SELECT `id` FROM `pool_worker` WHERE `username` = %(uname)s),
                   %(lres)s, %(lres)s, %(solution)s, 
-                  %(blocknum)s, %(hash)s, '', %(difficulty)s, %(header)s)
+                  %(blocknum)s, %(hash)s, '', %(difficulty)s, %(uname)s)
                 """,
                 {
                     "time": data[4],
@@ -376,8 +376,7 @@ class DB_Mysql_Extended(DB_Mysql.DB_Mysql):
                     "solution": data[2],
                     "blocknum": data[7],
                     "hash": data[8],
-                    "difficulty": data[9],
-					"header": data[1]
+                    "difficulty": data[9]
                 }
             )
             
