@@ -139,7 +139,7 @@ CREATE TABLE IF NOT EXISTS `shares_archive_found` (
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE IF NOT EXISTS `shares_found` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTEMP ON UPDATE CURRENT_TIMESTAMP,
+  `time` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   `rem_host` text,
   `worker` bigint(20) unsigned NOT NULL DEFAULT '0',
   `our_result` tinyint(1) DEFAULT NULL,
