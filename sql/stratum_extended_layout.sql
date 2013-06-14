@@ -148,7 +148,7 @@ CREATE TABLE IF NOT EXISTS `shares_found` (
   `block_num` int(11) DEFAULT NULL,
   `prev_block_hash` text,
   `useragent` text,
-  `defficulty` int(11) DEFAULT NULL,
+  `difficulty` int(11) DEFAULT NULL,
   `username` text,
   PRIMARY KEY `id` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
